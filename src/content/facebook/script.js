@@ -19,7 +19,8 @@ let observer = new MutationObserver(mutations => {
       // Track only elements, skip other nodes (e.g. text nodes)
       if (!(node instanceof HTMLElement)) continue;
       for (let elem of node.querySelectorAll(shrdContentClass)) {
-        elem.style.border = "2px solid blue"; //temprory code to highlight shared content
+        let aElem = elem.querySelector(".a_q_joqo85y>.fcg>a");
+        aElem.style.border = "2px solid blue"; //temprory code to highlight shared content
       }
     }
   }
