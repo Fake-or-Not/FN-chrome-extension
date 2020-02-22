@@ -29,7 +29,7 @@ let observer = new MutationObserver(mutations => {
             let post_url = matches[1];
             let baseUser = matches[2];
             let post_id = matches[3];
-            let uuid = Date.now() + post_id;
+            let uuid = btoa(window.performance.now() + post_id);
             sharePostData.push({
               uuid,
               post_id,
