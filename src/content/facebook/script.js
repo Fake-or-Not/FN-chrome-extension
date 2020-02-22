@@ -1,12 +1,12 @@
 /**
  * Code ment to make a change.
  *
- * Facebook - Show research data available for each shared post shwon on the screen.
+ * Facebook - Show research data available for each shared post shown on the screen.
  *
- * The code gets base url for all the shared content and sends it to the server.
- * Server checks if any information is available for the corresponding post.
- * If available server responds if the content is Real or Fake,
- * which is then shown on the screen in an area above shared button.
+ * The code gets base url for all the shared content and sends it to Fake-or-Not server.
+ * Server checks if any information for the post is available.
+ * If available, server responds if the content is Real or Fake,
+ * which is then shown on the screen in an area above share button.
  *
  *
  * Strict Note: Let's pledge not to use this extension to capture any user data.
