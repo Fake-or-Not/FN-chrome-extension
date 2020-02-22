@@ -14,15 +14,36 @@
 let fbContentAreaElem = document.getElementById("contentArea");
 let shrdContentClass = "._sds";
 let observer = new MutationObserver(mutations => {
+  let sharePostData = [];
   for (let mutation of mutations) {
     for (let node of mutation.addedNodes) {
       // Track only elements, skip other nodes (e.g. text nodes)
       if (!(node instanceof HTMLElement)) continue;
       for (let elem of node.querySelectorAll(shrdContentClass)) {
         let aElem = elem.querySelector(".a_q_joqo85y>.fcg>a");
+        let basePostURL = aElem.getAttribute("href");
+        const urlRegex = /^(\/(.*)\/.+\/([0-9]{10,}))(\/$|\/?|$)/g;
+        let matches = urlRegex.exec(basePostURL);
+        if (matches !== null) {
+          if (matches[1] != "" && matches[2] != "") {
+            let post_url = matches[1];
+            let baseUser = matches[2];
+            let post_id = matches[3];
+            let uuid = Date.now() + post_id;
+            sharePostData.push({
+              uuid,
+              post_id,
+              post_url,
+              baseUser
+            });
+          }
+        }
         aElem.style.border = "2px solid blue"; //temprory code to highlight shared content
       }
     }
+  }
+  if (sharePostData.length != 0) {
+    console.log(sharePostData);
   }
 });
 
