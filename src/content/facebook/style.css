@@ -2,3 +2,33 @@
  * Styling the world into a better place.
  *
  */
+
+/* Temp Code for designing purpose */
+.shr_fon {
+  min-height: "2px";
+  width: "100%";
+  border: "1px solid #7344d09c";
+}
+
+/**
+ * Post which are fake.
+*/
+/*
+.shr_fon.fake {
+}
+
+.shr_fon.fake.partial {
+}
+
+.shr_fon.truth {
+}
+
+.shr_fon.truth.partial {
+}
+
+.shr_fon.ignore {
+}
+
+.shr_fon.need_rsh {
+}
+*/

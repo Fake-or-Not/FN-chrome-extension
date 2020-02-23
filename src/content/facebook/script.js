@@ -30,6 +30,13 @@ let observer = new MutationObserver(mutations => {
             let baseUser = matches[2];
             let post_id = matches[3];
             let uuid = btoa(window.performance.now() + post_id);
+            let repoDiv = document.createElement("div");
+            repoDiv.setAttribute("id", "FN_" + uuid);
+            repoDiv.setAttribute("class", "shr_fon");
+            repoDiv.style.minHeight = "2px"; //tmp
+            repoDiv.style.width = "100%"; //tmp
+            repoDiv.style.border = "2px solid orange"; //tmp code to check Injection
+            elem.appendChild(repoDiv);
             sharePostData.push({
               uuid,
               post_id,
@@ -38,7 +45,6 @@ let observer = new MutationObserver(mutations => {
             });
           }
         }
-        aElem.style.border = "2px solid blue"; //temprory code to highlight shared content
       }
     }
   }
