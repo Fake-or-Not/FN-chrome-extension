@@ -11,6 +11,17 @@
  *
  * Strict Note: Let's pledge not to use this extension to capture any user data.
  */
+
+/**
+ * Injecting stylesheet through javascript
+ */
+
+// let style = document.createElement("link");
+// style.rel = "stylesheet";
+// style.type = "text/css";
+// style.href = chrome.extension.getURL("src/content/facebook/style.css");
+// (document.head || document.documentElement).appendChild(style);
+
 let fbContentAreaElem = document.getElementById("contentArea");
 let shrdContentClass = "._sds";
 let observer = new MutationObserver(mutations => {
@@ -32,10 +43,8 @@ let observer = new MutationObserver(mutations => {
             let uuid = btoa(window.performance.now() + post_id);
             let repoDiv = document.createElement("div");
             repoDiv.setAttribute("id", "FN_" + uuid);
-            repoDiv.setAttribute("class", "shr_fon");
-            repoDiv.style.minHeight = "2px"; //tmp
-            repoDiv.style.width = "100%"; //tmp
-            repoDiv.style.border = "2px solid orange"; //tmp code to check Injection
+            repoDiv.setAttribute("class", "shr_fon fake"); //tmp
+            repoDiv.innerHTML = `<p>This content is fake <button>Know More</button></p>`; //tmp
             elem.appendChild(repoDiv);
             sharePostData.push({
               uuid,

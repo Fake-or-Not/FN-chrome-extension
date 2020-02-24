@@ -5,16 +5,21 @@
 
 /* Temp Code for designing purpose */
 .shr_fon {
-  min-height: "2px";
-  width: "100%";
-  border: "1px solid #7344d09c";
+}
+
+.shr_fon button {
+  float: right;
 }
 
 /**
  * Post which are fake.
 */
-/*
 .shr_fon.fake {
+  margin-top: 5px;
+  width: 100%;
+  border: 1px solid rgba(218, 30, 6, 0.7);
+  color: red;
+  padding: 0 5px;
 }
 
 .shr_fon.fake.partial {
@@ -31,4 +36,3 @@
 
 .shr_fon.need_rsh {
 }
-*/
