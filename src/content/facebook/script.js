@@ -34,23 +34,24 @@ let observer = new MutationObserver(mutations => {
         let aElem = elem.querySelector(".a_q_joqo85y>.fcg>a");
         let basePostURL = aElem.getAttribute("href");
         const urlRegex = /^(\/(.*)\/.+\/([0-9]{10,}))(\/$|\/?|$)/g;
+        // console.log(basePostURL);
         let matches = urlRegex.exec(basePostURL);
+        console.log(matches);
         if (matches !== null) {
           if (matches[1] != "" && matches[2] != "") {
             let post_url = matches[1];
-            let baseUser = matches[2];
+            let poster = matches[2];
             let post_id = matches[3];
-            let uuid = btoa(window.performance.now() + post_id);
+            let post_type = "photo";
             let repoDiv = document.createElement("div");
             repoDiv.setAttribute("id", "FN_" + uuid);
-            repoDiv.setAttribute("class", "shr_fon fake"); //tmp
-            repoDiv.innerHTML = `<p>This content is fake <button>Know More</button></p>`; //tmp
+            repoDiv.setAttribute("class", "shr_fon");
             elem.appendChild(repoDiv);
             sharePostData.push({
-              uuid,
               post_id,
               post_url,
-              baseUser
+              post_type,
+              poster
             });
           }
         }
@@ -58,10 +59,30 @@ let observer = new MutationObserver(mutations => {
     }
   }
   if (sharePostData.length != 0) {
-    console.log(sharePostData);
+    //hiting to a tempropry url
+    postData("https://example.com", sharePostData).then(data => {
+      console.log(data); // JSON data parsed by `response.json()` call
+    });
   }
 });
 
+async function postData(url = "", data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, *cors, same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "same-origin", // include, *same-origin, omit
+    headers: {
+      "Content-Type": "application/json"
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: "follow", // manual, *follow, error
+    referrerPolicy: "no-referrer", // no-referrer, *client
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+  return await response.json(); // parses JSON response into native JavaScript objects
+}
 // observe everything except attributes
 observer.observe(fbContentAreaElem, {
   childList: true, // observe direct children
