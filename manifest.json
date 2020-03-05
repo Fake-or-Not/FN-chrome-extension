@@ -16,7 +16,7 @@
     }
   ],
   "externally_connectable": {
-    "matches": ["*://example.com/*"]
+    "matches": ["*://fake-or-not.herokuapp.com/*"]
   },
   "content_security_policy": "script-src 'self'; object-src 'self'",
   "permissions": ["https://*.facebook.com/*", "https://facebook.com/*"],

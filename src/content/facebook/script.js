@@ -35,54 +35,88 @@ let observer = new MutationObserver(mutations => {
         let basePostURL = aElem.getAttribute("href");
         const urlRegex = /^(\/(.*)\/.+\/([0-9]{10,}))(\/$|\/?|$)/g;
 
-        // console.log(basePostURL);
-        // console.log(basePostURL);
-        let matches = urlRegex.exec(basePostURL);
-        // console.log(matches);
-        if (matches !== null) {
-          if (matches[1] != "" && matches[2] != "") {
-            let post_url = matches[1];
-            let poster = matches[2];
-            let post_id = matches[3];
-            let post_type = "photo";
-            let repoDiv = document.createElement("div");
-            repoDiv.setAttribute("id", "FN_" + post_id);
-            repoDiv.setAttribute("class", "shr_fon");
-            elem.appendChild(repoDiv);
-            sharePostData.push({
-              post_id,
-              post_url,
-              post_type,
-              poster
-            });
-          }
+        const photoRegex = /\/([^\/]+)\/(photos)\/([^\/]{0,})\/([0-9]+)/g;
+        const videoRegex = /\/([^\/]+)\/(videos)\/([0-9]+)/g;
+        let post = { post_id: 0, post_type: "tmp" };
+        if (photoRegex.test(basePostURL)) {
+          post = processPhotoURL(basePostURL);
+        } else if (videoRegex.test(basePostURL)) {
+          post = processVideoURL(basePostURL);
+        } else {
+          continue;
         }
+        let repoDiv = document.createElement("div");
+        repoDiv.setAttribute("id", "FN_" + post.post_id + "_" + post.post_type);
+        repoDiv.setAttribute("class", "shr_fon");
+        elem.appendChild(repoDiv);
+        sharePostData.push(post);
       }
     }
   }
   if (sharePostData.length != 0) {
-    //hiting to a tempropry url
     postData("https://fake-or-not.herokuapp.com/addPost", sharePostData).then(
       data => {
-        console.log(data); // JSON data parsed by `response.json()` call
+        processResponse(data); // JSON data parsed by `response.json()` call
       }
     );
   }
 });
 
-async function postData(url = "", data = {}) {
-  // Default options are marked with *
-  const response = await fetch(url, {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
-    mode: "no-cors", // no-cors, *cors, same-origin
-    headers: {
-      "Content-Type": "application/json"
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
-  });
-  return await response.json(); // parses JSON response into native JavaScript objects
-}
+let processResponse = resp => {
+  // resp
+  // logic to render here.
+  resp.forEach(renderResponse);
+};
+
+let renderResponse = (post, index) => {
+  console.log(post);
+  let rendElem = document.getElementById(
+    "FN_" + post.post_id + "_" + post.post_type
+  );
+  rendElem.style.backgroundColor = "red"; //tmp
+  rendElem.style.minHeight = "10px"; //tmp
+  rendElem.style.minWidth = "100%"; //tmp
+};
+
+let processPhotoURL = url => {
+  const photoRegex = /\/([^\/]+)\/(photos)\/([^\/]{0,})\/([0-9]+)/g;
+  const matches = photoRegex.exec(url);
+  return {
+    post_url: matches[0],
+    poster: matches[1],
+    post_type: matches[2],
+    gallery_slug: matches[3],
+    post_id: matches[4]
+  };
+};
+
+let processVideoURL = url => {
+  const videoRegex = /\/([^\/]+)\/(videos)\/([0-9]+)/g;
+  const matches = videoRegex.exec(url);
+  return {
+    post_url: matches[0],
+    poster: matches[1],
+    post_type: matches[2],
+    post_id: matches[3]
+  };
+};
+
+let postData = async (url = "", data = {}) => {
+  try {
+    // Default options are marked with *
+    const response = await fetch(url, {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "Content-Type": "application/json"
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });
+    return await response.json(); // parses JSON response into native JavaScript objects
+  } catch (err) {
+    return [];
+  }
+};
 // observe everything except attributes
 observer.observe(fbContentAreaElem, {
   childList: true, // observe direct children
