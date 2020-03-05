@@ -22,9 +22,9 @@
 // style.href = chrome.extension.getURL("src/content/facebook/style.css");
 // (document.head || document.documentElement).appendChild(style);
 
-let fbContentAreaElem = document.getElementById("contentArea");
-let shrdContentClass = "._sds";
-let observer = new MutationObserver(mutations => {
+const fbContentAreaElem = document.getElementById("contentArea");
+const shrdContentClass = "._sds";
+const observer = new MutationObserver(mutations => {
   let sharePostData = [];
   for (let mutation of mutations) {
     for (let node of mutation.addedNodes) {
@@ -101,19 +101,18 @@ let processVideoURL = url => {
   };
 };
 
-let postData = async (url = "", data = {}) => {
+let postData = async (url, data = {}) => {
   try {
-    // Default options are marked with *
     const response = await fetch(url, {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      method: "POST",
       headers: {
         "Content-Type": "application/json"
-        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: JSON.stringify(data) // body data type must match "Content-Type" header
+      body: JSON.stringify(data)
     });
-    return await response.json(); // parses JSON response into native JavaScript objects
+    return await response.json();
   } catch (err) {
+    console.error(err);
     return [];
   }
 };
