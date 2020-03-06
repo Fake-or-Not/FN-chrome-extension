@@ -33,8 +33,6 @@ const observer = new MutationObserver(mutations => {
       for (let elem of node.querySelectorAll(shrdContentClass)) {
         let aElem = elem.querySelector(".a_q_joqo85y>.fcg>a");
         let basePostURL = aElem.getAttribute("href");
-        const urlRegex = /^(\/(.*)\/.+\/([0-9]{10,}))(\/$|\/?|$)/g;
-
         const photoRegex = /\/([^\/]+)\/(photos)\/([^\/]{0,})\/([0-9]+)/g;
         const videoRegex = /\/([^\/]+)\/(videos)\/([0-9]+)/g;
         let post = { post_id: 0, post_type: "tmp" };
@@ -45,7 +43,7 @@ const observer = new MutationObserver(mutations => {
         } else {
           continue;
         }
-        let repoDiv = document.createElement("div");
+        const repoDiv = document.createElement("div");
         repoDiv.setAttribute("id", "FN_" + post.post_id + "_" + post.post_type);
         repoDiv.setAttribute("class", "shr_fon");
         elem.appendChild(repoDiv);
@@ -62,15 +60,14 @@ const observer = new MutationObserver(mutations => {
   }
 });
 
-let processResponse = resp => {
+const processResponse = resp => {
   // resp
   // logic to render here.
   resp.forEach(renderResponse);
 };
 
-let renderResponse = (post, index) => {
-  console.log(post);
-  let rendElem = document.getElementById(
+const renderResponse = (post, index) => {
+  const rendElem = document.getElementById(
     "FN_" + post.post_id + "_" + post.post_type
   );
   rendElem.style.backgroundColor = "red"; //tmp
@@ -78,7 +75,7 @@ let renderResponse = (post, index) => {
   rendElem.style.minWidth = "100%"; //tmp
 };
 
-let processPhotoURL = url => {
+const processPhotoURL = url => {
   const photoRegex = /\/([^\/]+)\/(photos)\/([^\/]{0,})\/([0-9]+)/g;
   const matches = photoRegex.exec(url);
   return {
@@ -90,7 +87,7 @@ let processPhotoURL = url => {
   };
 };
 
-let processVideoURL = url => {
+const processVideoURL = url => {
   const videoRegex = /\/([^\/]+)\/(videos)\/([0-9]+)/g;
   const matches = videoRegex.exec(url);
   return {
@@ -101,7 +98,7 @@ let processVideoURL = url => {
   };
 };
 
-let postData = async (url, data = {}) => {
+const postData = async (url, data = {}) => {
   try {
     const response = await fetch(url, {
       method: "POST",
