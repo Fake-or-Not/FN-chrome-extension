@@ -15,6 +15,9 @@
       "css": ["src/content/facebook/style.css"]
     }
   ],
+  "externally_connectable": {
+    "matches": ["*://fake-or-not.herokuapp.com/*"]
+  },
   "content_security_policy": "script-src 'self'; object-src 'self'",
   "permissions": ["https://*.facebook.com/*", "https://facebook.com/*"],
   "web_accessible_resources": ["images/**/*.png"]

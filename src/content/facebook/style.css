@@ -2,3 +2,37 @@
  * Styling the world into a better place.
  *
  */
+
+/* Temp Code for designing purpose */
+.shr_fon {
+}
+
+.shr_fon button {
+  float: right;
+}
+
+/**
+ * Post which are fake.
+*/
+.shr_fon.fake {
+  margin-top: 5px;
+  width: 100%;
+  border: 1px solid rgba(218, 30, 6, 0.7);
+  color: red;
+  padding: 0 5px;
+}
+
+.shr_fon.fake.partial {
+}
+
+.shr_fon.truth {
+}
+
+.shr_fon.truth.partial {
+}
+
+.shr_fon.ignore {
+}
+
+.shr_fon.need_rsh {
+}
